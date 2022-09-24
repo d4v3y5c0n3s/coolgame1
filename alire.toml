@@ -1,0 +1,11 @@
+name = "coolgame1"
+description = "Shiny new project"
+version = "0.1.0-dev"
+
+authors = ["Troy Jacobs"]
+maintainers = ["Troy Jacobs <tmj9001@gmail.com>"]
+maintainers-logins = ["d4v3y5c0n3s"]
+
+executables = ["coolgame1"]
+[[depends-on]]
+sdlada = "^2.5.4-1"
