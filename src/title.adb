@@ -13,7 +13,6 @@ with Graphics;
 package body Title is
   event : SDL.Events.Events.Events;
   package Keys renames SDL.Events.Keyboards;
-  --yolo : Graphics.Sprite := Graphics.CreateTextSprite("YOLO");
 
   procedure Init is
   begin
@@ -21,9 +20,10 @@ package body Title is
   end Init;
 
   procedure SwappedTo is
-    sp_ord : Graphics.Sprite_Order_Access := new Graphics.Sprite_Order(1 .. 1);-- := (1 => Graphics.CreateTextSprite("YOLO"))
+    sp_ord : Graphics.Sprite_Order_Access := new Graphics.Sprite_Order(1 .. 1);
   begin
-    Graphics.CreateTextSprite("YOLO", sp_ord.all(1));
+    sp_ord.all(1) := new Graphics.Sprite;
+    Graphics.CreateTextSprite("GNU GPL Notice Here", sp_ord.all(1));
     Graphics.Set_Items_To_Render(sp_ord);
   end SwappedTo;
   

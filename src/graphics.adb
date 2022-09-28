@@ -56,21 +56,21 @@ package body Graphics is
   begin
     renderer.Clear;
     for I in render_order.all'Range loop
-      renderer.Copy(SDL.Video.Textures.Texture(render_order.all(I)));
+      renderer.Copy(SDL.Video.Textures.Texture(render_order.all(I).all));
     end loop;
     renderer.Present;
   end Render_Pass;
 
-  procedure CreateTextSprite (text : String; ret : in out Sprite) is
+  procedure CreateTextSprite (text : String; ret : Sprite_Access) is
     text_surface : SDL.Video.Surfaces.Surface;
   begin
     text_surface := SDL.TTFs.Render_Shaded(
                                             Self => font,
-                                            Text => "Yolo",
+                                            Text => text,
                                             Colour => SDL.Video.Palettes.Colour'(Red => 98, Green => 236, Blue => 120, Alpha => 255),
                                             Background_Colour => SDL.Video.Palettes.Colour'(Red => 236, Green => 203, Blue => 98, Alpha => 255)
                                           );
-    SDL.Video.Textures.Makers.Create(SDL.Video.Textures.Texture(ret), renderer, text_surface);
+    SDL.Video.Textures.Makers.Create(SDL.Video.Textures.Texture(ret.all), renderer, text_surface);
   end CreateTextSprite;
 
 end Graphics;

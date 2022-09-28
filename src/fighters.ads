@@ -4,23 +4,12 @@
 --  Coolgame1 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 --  You should have received a copy of the GNU General Public License along with Coolgame1. If not, see <https://www.gnu.org/licenses/>.
 
-with SDL.Video.Textures;
+with Graphics;
 
-package Graphics is
-  function Init return boolean;
-  procedure Quit;
-
-  type Sprite is tagged limited private;
-  type Sprite_Access is access Sprite;
-  type Sprite_Order is array (Positive range <>) of Sprite_Access;--Sprite;
-  type Sprite_Order_Access is access Sprite_Order;
-  
-  procedure Set_Items_To_Render (r : Sprite_Order_Access);
-  procedure Render_Pass;
-  procedure CreateTextSprite (text : String; ret : Sprite_Access);
-
-private
-  type Sprite is new SDL.Video.Textures.Texture with record
-    null;
-  end record;
-end Graphics;
+package Fighters is
+  --type Fighter_State is ;-- stores the state of a fighter, and gets updated by the fighters package
+  --procedure Load_Fighters;-- loads the images & info for fighters into arrays
+  --function Get_Fighter() return ;-- returns a pointer to a fighter
+  --TODO find a way to update graphics without needing to pass an array for each frame of animation
+  --  (using pointers seems to make the most sense)
+end Fighters;

@@ -32,6 +32,9 @@ begin
                   end if;
                   Title.Process;
                when GameState.battle =>
+                  if last_state /= GameState.battle then
+                     Battle.SwappedTo;
+                  end if;
                   Battle.Process;
                when GameState.quit =>
                   running := False;

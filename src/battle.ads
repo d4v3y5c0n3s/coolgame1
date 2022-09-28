@@ -6,5 +6,6 @@
 
 package Battle is
   procedure Init;
+  procedure SwappedTo;
   procedure Process;
 end Battle;

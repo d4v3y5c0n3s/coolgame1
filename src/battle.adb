@@ -9,6 +9,7 @@ with SDL.Events.Keyboards;
 
 with GameState;
 with Graphics;
+with Fighters;
 
 package body Battle is
   event : SDL.Events.Events.Events;
@@ -18,6 +19,11 @@ package body Battle is
   begin
     null;
   end Init;
+
+  procedure SwappedTo is
+  begin
+    null;
+  end SwappedTo;
   
   procedure Process is
   begin
