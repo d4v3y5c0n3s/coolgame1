@@ -12,6 +12,8 @@ with SDL.Video.Pixel_Formats;
 with SDL.TTFs.Makers;
 with SDL.Video.Palettes;
 with SDL.Video.Surfaces;
+with SDL.Images.IO;
+with SDL.Images; use SDL.Images;
 
 package body Graphics is
    window_size : constant SDL.Positive_Sizes := SDL.Positive_Sizes'(800, 600);
@@ -24,7 +26,7 @@ package body Graphics is
    
   function Init return boolean is
   begin
-    if SDL.Initialise = True and then SDL.TTFs.Initialise = True then
+    if SDL.Initialise = True and then SDL.TTFs.Initialise = True and then SDL.Images.Initialise(SDL.Images.Enable_JPG or SDL.Images.Enable_PNG) then
       SDL.Video.Windows.Makers.Create(
                                       Win => window,
                                       Title => "HITBOXERS",
@@ -44,6 +46,7 @@ package body Graphics is
   begin
     window.Finalize;
     SDL.TTFs.Finalise;
+    SDL.Images.Finalise;
     SDL.Finalise;
   end Quit;
 
@@ -61,6 +64,13 @@ package body Graphics is
     renderer.Present;
   end Render_Pass;
 
+  procedure CreateSpriteFromFile (filename : String; ret : Sprite_Access) is
+    sprite_surface : SDL.Video.Surfaces.Surface;
+  begin
+    SDL.Images.IO.Create (Surface => sprite_surface, File_Name => filename);
+    SDL.Video.Textures.Makers.Create(SDL.Video.Textures.Texture(ret.all), renderer, sprite_surface);
+  end CreateSpriteFromFile;
+  
   procedure CreateTextSprite (text : String; ret : Sprite_Access) is
     text_surface : SDL.Video.Surfaces.Surface;
   begin

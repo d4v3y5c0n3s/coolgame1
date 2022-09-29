@@ -21,8 +21,11 @@ package body Battle is
   end Init;
 
   procedure SwappedTo is
+    sp_ord : Graphics.Sprite_Order_Access := new Graphics.Sprite_Order(1 .. 1);
   begin
-    null;
+    sp_ord.all(1) := new Graphics.Sprite;
+    Graphics.CreateSpriteFromFile("resources/sprites/coolgame1_test_fighter.png", sp_ord.all(1));
+    Graphics.Set_Items_To_Render(sp_ord);
   end SwappedTo;
   
   procedure Process is
@@ -44,5 +47,3 @@ package body Battle is
     end loop;
   end process;
 end Battle;
---SDL.Video.Textures.Makers.Create(text_texture2, renderer, text_surface2);
---renderer.Copy(text_texture2);

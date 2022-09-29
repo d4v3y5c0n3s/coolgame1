@@ -12,11 +12,12 @@ package Graphics is
 
   type Sprite is tagged limited private;
   type Sprite_Access is access Sprite;
-  type Sprite_Order is array (Positive range <>) of Sprite_Access;--Sprite;
+  type Sprite_Order is array (Positive range <>) of Sprite_Access;
   type Sprite_Order_Access is access Sprite_Order;
   
   procedure Set_Items_To_Render (r : Sprite_Order_Access);
   procedure Render_Pass;
+  procedure CreateSpriteFromFile(filename : String; ret : Sprite_Access);
   procedure CreateTextSprite (text : String; ret : Sprite_Access);
 
 private
