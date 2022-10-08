@@ -5,12 +5,13 @@
 --  You should have received a copy of the GNU General Public License along with Coolgame1. If not, see <https://www.gnu.org/licenses/>.
 
 with SDL.Video.Textures;
+with SDL.Video.Rectangles;
 
 package Graphics is
   function Init return boolean;
   procedure Quit;
 
-  type Sprite is tagged limited private;
+  type Sprite is limited private;
   type Sprite_Access is access Sprite;
   type Sprite_Order is array (Positive range <>) of Sprite_Access;
   type Sprite_Order_Access is access Sprite_Order;
@@ -21,7 +22,9 @@ package Graphics is
   procedure CreateTextSprite (text : String; ret : Sprite_Access);
 
 private
-  type Sprite is new SDL.Video.Textures.Texture with record
-    null;
+  type Sprite is record
+    tex : SDL.Video.Textures.Texture;
+    from_rect : SDL.Video.Rectangles.Rectangle;
+    to_rect : SDL.Video.Rectangles.Rectangle;
   end record;
 end Graphics;

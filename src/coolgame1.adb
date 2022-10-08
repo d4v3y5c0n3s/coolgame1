@@ -29,11 +29,13 @@ begin
                when GameState.title =>
                   if last_state /= GameState.title then
                      Title.SwappedTo;
+                     last_state := GameState.title;
                   end if;
                   Title.Process;
                when GameState.battle =>
                   if last_state /= GameState.battle then
                      Battle.SwappedTo;
+                     last_state := GameState.battle;
                   end if;
                   Battle.Process;
                when GameState.quit =>

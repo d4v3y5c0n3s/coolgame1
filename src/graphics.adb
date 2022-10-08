@@ -56,23 +56,37 @@ package body Graphics is
   end Set_Items_To_Render;
 
   procedure Render_Pass is
+    s : Sprite_Access;
   begin
     renderer.Clear;
     for I in render_order.all'Range loop
-      renderer.Copy(SDL.Video.Textures.Texture(render_order.all(I).all));
+      s := render_order.all(I);
+      renderer.Copy(SDL.Video.Textures.Texture(s.all.tex), s.all.from_rect, s.all.to_rect, 0.0, SDL.Video.Rectangles.Point'(X => 0, Y => 0), SDL.Video.Renderers.None);
     end loop;
     renderer.Present;
   end Render_Pass;
+  
+  procedure GetTextureSize (spa: Sprite_Access; sz : out SDL.Sizes) is
+    pf : SDL.Video.Pixel_Formats.Pixel_Format_Names;
+    kd : SDL.Video.Textures.Kinds;
+  begin
+    SDL.Video.Textures.Query(spa.all.tex, pf, kd, sz);
+  end GetTextureSize;
 
   procedure CreateSpriteFromFile (filename : String; ret : Sprite_Access) is
     sprite_surface : SDL.Video.Surfaces.Surface;
+    tex_size : SDL.Sizes;
   begin
     SDL.Images.IO.Create (Surface => sprite_surface, File_Name => filename);
-    SDL.Video.Textures.Makers.Create(SDL.Video.Textures.Texture(ret.all), renderer, sprite_surface);
+    SDL.Video.Textures.Makers.Create(SDL.Video.Textures.Texture(ret.all.tex), renderer, sprite_surface);
+    GetTextureSize(ret, tex_size);
+    ret.all.from_rect := SDL.Video.Rectangles.Rectangle'(0, 0, tex_size.Width, tex_size.Height);
+    ret.all.to_rect := SDL.Video.Rectangles.Rectangle'(0, 0, tex_size.Width, tex_size.Height);
   end CreateSpriteFromFile;
   
   procedure CreateTextSprite (text : String; ret : Sprite_Access) is
     text_surface : SDL.Video.Surfaces.Surface;
+    tex_size : SDL.Sizes;
   begin
     text_surface := SDL.TTFs.Render_Shaded(
                                             Self => font,
@@ -80,7 +94,10 @@ package body Graphics is
                                             Colour => SDL.Video.Palettes.Colour'(Red => 98, Green => 236, Blue => 120, Alpha => 255),
                                             Background_Colour => SDL.Video.Palettes.Colour'(Red => 236, Green => 203, Blue => 98, Alpha => 255)
                                           );
-    SDL.Video.Textures.Makers.Create(SDL.Video.Textures.Texture(ret.all), renderer, text_surface);
+    SDL.Video.Textures.Makers.Create(SDL.Video.Textures.Texture(ret.all.tex), renderer, text_surface);
+    GetTextureSize(ret, tex_size);
+    ret.all.from_rect := SDL.Video.Rectangles.Rectangle'(0, 0, tex_size.Width, tex_size.Height);
+    ret.all.to_rect := SDL.Video.Rectangles.Rectangle'(0, 0, tex_size.Width, tex_size.Height);
   end CreateTextSprite;
 
 end Graphics;
