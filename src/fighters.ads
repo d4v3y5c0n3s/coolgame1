@@ -4,12 +4,22 @@
 --  Coolgame1 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 --  You should have received a copy of the GNU General Public License along with Coolgame1. If not, see <https://www.gnu.org/licenses/>.
 
-with Graphics;
+with Animate;
 
 package Fighters is
-  --type Fighter_State is ;-- stores the state of a fighter, and gets updated by the fighters package
-  --procedure Load_Fighters;-- loads the images & info for fighters into arrays
-  --function Get_Fighter() return ;-- returns a pointer to a fighter
-  --TODO find a way to update graphics without needing to pass an array for each frame of animation
-  --  (using pointers seems to make the most sense)
+  type CharacterID is (Dummy);-- enumerated type for each character
+  type Base_State is (Standing, Crouching, MidAir);
+  type Facing_Dir is (Left, Right);
+  -- ^--base character state such as crouch, stand, etc. that determines what moves can be used
+  --type Move (s : Base_State) is array();-- a temporary sub-state a character enters resulting
+  --type Moveset (c : CharacterID);
+  --type Move_Binding is ;
+  type Fighter is record
+    anim_sprite : Animate.Animated_Sprite;
+    X : Integer;
+    Y : Integer;
+    facing : Facing_Dir;
+    base : Base_State;
+  end record;
+  procedure Move_Fighter (F : Fighter; X : Integer; Y : Integer);
 end Fighters;

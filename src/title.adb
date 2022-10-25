@@ -23,7 +23,7 @@ package body Title is
     sp_ord : Graphics.Sprite_Order_Access := new Graphics.Sprite_Order(1 .. 1);
   begin
     sp_ord.all(1) := new Graphics.Sprite;
-    Graphics.CreateTextSprite("GNU GPL Notice Here", sp_ord.all(1));
+    Graphics.CreateTextSprite("This Software is Released Under the GNU General Public License Version 3", sp_ord.all(1));
     Graphics.Set_Items_To_Render(sp_ord);
   end SwappedTo;
   

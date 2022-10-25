@@ -10,10 +10,13 @@ with SDL.Events.Keyboards;
 with GameState;
 with Graphics;
 with Fighters;
+with Animate;
 
 package body Battle is
   event : SDL.Events.Events.Events;
   package Keys renames SDL.Events.Keyboards;
+  
+  stick_dude : Fighters.Fighter;
   
   procedure Init is
   begin
@@ -24,7 +27,8 @@ package body Battle is
     sp_ord : Graphics.Sprite_Order_Access := new Graphics.Sprite_Order(1 .. 1);
   begin
     sp_ord.all(1) := new Graphics.Sprite;
-    Graphics.CreateSpriteFromFile("resources/sprites/coolgame1_test_fighter.png", sp_ord.all(1));
+    stick_dude.anim_sprite :=
+      Animate.Read_Animated_Sprite_From_File("resources/sprites/coolgame1_test_fighter.png", 2, 1, sp_ord.all(1));
     Graphics.Set_Items_To_Render(sp_ord);
   end SwappedTo;
   
@@ -38,6 +42,10 @@ package body Battle is
           case Event.Keyboard.Key_Sym.Key_Code is
             when Keys.Code_Escape =>
               GameState.Change_To_State(GameState.quit);
+            when Keys.Code_Left =>
+              Fighters.Move_Fighter(stick_dude, -1, 0);
+            when Keys.Code_Right =>
+              Fighters.Move_Fighter(stick_dude, 1, 0);
             when others =>
               null;
           end case;

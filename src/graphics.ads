@@ -20,6 +20,11 @@ package Graphics is
   procedure Render_Pass;
   procedure CreateSpriteFromFile(filename : String; ret : Sprite_Access);
   procedure CreateTextSprite (text : String; ret : Sprite_Access);
+  
+  function SpritePixelWidth (S : Sprite_Access) return Positive;
+  function SpritePixelHeight (S : Sprite_Access) return Positive;
+  procedure SpriteSetSubSpriteTransform(S : Sprite_Access; W : Positive; H : Positive; X : Natural; Y : Natural);
+  procedure SpriteSetOutputTransform(S : Sprite_Access; W : Positive; H : Positive; X : Integer; Y : Integer);
 
 private
   type Sprite is record

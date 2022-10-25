@@ -14,6 +14,7 @@ with SDL.Video.Palettes;
 with SDL.Video.Surfaces;
 with SDL.Images.IO;
 with SDL.Images; use SDL.Images;
+with Interfaces.C;
 
 package body Graphics is
    window_size : constant SDL.Positive_Sizes := SDL.Positive_Sizes'(800, 600);
@@ -29,13 +30,13 @@ package body Graphics is
     if SDL.Initialise = True and then SDL.TTFs.Initialise = True and then SDL.Images.Initialise(SDL.Images.Enable_JPG or SDL.Images.Enable_PNG) then
       SDL.Video.Windows.Makers.Create(
                                       Win => window,
-                                      Title => "HITBOXERS",
+                                      Title => "coolgame1",
                                       Position => SDL.Natural_Coordinates'(X => 300, Y => 300),
                                       Size => window_size,
                                       Flags => SDL.Video.Windows.Resizable
                                     );
       SDL.Video.Renderers.Makers.Create(renderer, window);
-      SDL.TTFs.Makers.Create(font, font_path, 40);
+      SDL.TTFs.Makers.Create(font, font_path, 18);
       return True;
     else
       return False;
@@ -89,15 +90,45 @@ package body Graphics is
     tex_size : SDL.Sizes;
   begin
     text_surface := SDL.TTFs.Render_Shaded(
-                                            Self => font,
-                                            Text => text,
-                                            Colour => SDL.Video.Palettes.Colour'(Red => 98, Green => 236, Blue => 120, Alpha => 255),
-                                            Background_Colour => SDL.Video.Palettes.Colour'(Red => 236, Green => 203, Blue => 98, Alpha => 255)
-                                          );
+      Self => font,
+      Text => text,
+      Colour => SDL.Video.Palettes.Colour'(Red => 255, Green => 255, Blue => 255, Alpha => 255),
+      Background_Colour => SDL.Video.Palettes.Colour'(Red => 0, Green => 0, Blue => 0, Alpha => 255)
+    );
     SDL.Video.Textures.Makers.Create(SDL.Video.Textures.Texture(ret.all.tex), renderer, text_surface);
     GetTextureSize(ret, tex_size);
     ret.all.from_rect := SDL.Video.Rectangles.Rectangle'(0, 0, tex_size.Width, tex_size.Height);
     ret.all.to_rect := SDL.Video.Rectangles.Rectangle'(0, 0, tex_size.Width, tex_size.Height);
   end CreateTextSprite;
+  
+  function SpritePixelWidth (S : Sprite_Access) return Positive is
+    tex_size : SDL.Sizes;
+  begin
+    GetTextureSize(S, tex_size);
+    return Integer(tex_size.Width);
+  end SpritePixelWidth;
+  
+  function SpritePixelHeight (S : Sprite_Access) return Positive is
+    tex_size : SDL.Sizes;
+  begin
+    GetTextureSize(S, tex_size);
+    return Integer(tex_size.Height);
+  end SpritePixelHeight;
+  
+  procedure SpriteSetSubSpriteTransform(S : Sprite_Access; W : Positive; H : Positive; X : Natural; Y : Natural) is
+  begin
+    S.all.from_rect.X := Interfaces.C.int(X);
+    S.all.from_rect.Y := Interfaces.C.int(Y);
+    S.all.from_rect.Width := Interfaces.C.int(W);
+    S.all.from_rect.Height := Interfaces.C.int(H);
+  end SpriteSetSubSpriteTransform;
+  
+  procedure SpriteSetOutputTransform(S : Sprite_Access; W : Positive; H : Positive; X : Integer; Y : Integer) is
+  begin
+    S.all.to_rect.X := Interfaces.C.int(X);
+    S.all.to_rect.Y := Interfaces.C.int(Y);
+    S.all.to_rect.Width := Interfaces.C.int(W);
+    S.all.to_rect.Height := Interfaces.C.int(H);
+  end SpriteSetOutputTransform;
 
 end Graphics;
